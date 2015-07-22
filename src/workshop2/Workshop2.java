@@ -1,5 +1,9 @@
 package workshop2;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class Workshop2 {
 	/**
 	 * Task 1: 
@@ -96,6 +100,17 @@ public class Workshop2 {
 		
 		System.out.println("TODO: implement Task 6");
 	}
+	
+	//return the value of a point in img, if out of bound, then return 0
+	public int inBound(byte[] img, int x, int y, int w, int h)
+	{
+		if ((x<0) || (x>=h))
+			return 0;
+		if ((y<0) || (y>=w))
+			return 0;
+		return (int)img[x*w+y]&0xFF;
+	}
+	
 	/**
 	 * Homework 1:
 	 * Implement the box smoothing filter.
@@ -106,8 +121,20 @@ public class Workshop2 {
 	 * @param filterSize the size of the filter, which is supplied by the user
 	 */
 	public void boxSmoothFilter(byte[] img, int w, int h, int filterSize) {
-		System.out.println("TODO: implement Homework 1");
+		byte[] originImg = img.clone();
+		for (int x=0;x<h;x++){
+			for (int y=0;y<w;y++){
+				int temp=0;
+				for (int i=-filterSize/2;i<filterSize/2+1;i++){
+					for (int j=-filterSize/2;j<filterSize/2+1;j++){
+						temp+=inBound(originImg, x+i, y+j, w, h);
+					}
+				}
+				img[x*w+y]=(byte)(temp/(filterSize*filterSize));
+			}
+		}
 	}
+	
 	/**
 	 * Homework 2:
 	 * Implement the median filter. 
@@ -119,7 +146,20 @@ public class Workshop2 {
 	 * @param filterSize the size of the filter, which is supplied by the user
 	 */
 	public void medianFilter(byte[] img, int w, int h, int filterSize) {
-		System.out.println("TODO: implement Homework 2");
+		byte[] originImg = img.clone();
+		for (int x=0;x<h;x++){
+			for (int y=0;y<w;y++){
+				ArrayList<Integer> l =new ArrayList<Integer>();
+				for (int i=-filterSize/2;i<filterSize/2+1;i++){
+					for (int j=-filterSize/2;j<filterSize/2+1;j++){
+						l.add(inBound(originImg, x+i, y+j, w, h));
+					}
+				}
+				Collections.sort(l);
+				img[x*w+y]=(byte)(l.get(filterSize*filterSize/2).intValue());
+				//System.out.println(img[x*w+y]&0xFF);
+			}
+		}		
 	}
 	/** 
 	 * Homework 3:
@@ -130,6 +170,28 @@ public class Workshop2 {
 	 * @param h height of the image
 	 */
 	public void laplacianFilter(byte img[], int w, int h) {
-		System.out.println("TODO: implement Homework 3");
+		//System.out.println("TODO: implement Homework 3");
+		byte[] originImg = img.clone();
+		
+		
+		for (int x=0;x<h;x++){
+			for (int y=0;y<w;y++){
+				int temp=0;
+				for (int i=-1;i<2;i++){
+					for (int j=-1;j<2;j++){
+						
+						if (i==0 && j==0)
+							temp+=8*inBound(originImg, x, y, w, h);
+						else 
+							temp+=-inBound(originImg, x+i, y+j, w, h);
+						
+					}
+				}
+				
+				if (temp<0) temp = 0;if (temp>255) temp = 255;
+				
+				img[x*w+y]=(byte)temp;
+			}
+		}
 	}
 }
