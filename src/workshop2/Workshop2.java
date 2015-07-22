@@ -121,7 +121,9 @@ public class Workshop2 {
 	 * @param filterSize the size of the filter, which is supplied by the user
 	 */
 	public void boxSmoothFilter(byte[] img, int w, int h, int filterSize) {
+		
 		byte[] originImg = img.clone();
+		
 		for (int x=0;x<h;x++){
 			for (int y=0;y<w;y++){
 				int temp=0;
@@ -146,7 +148,9 @@ public class Workshop2 {
 	 * @param filterSize the size of the filter, which is supplied by the user
 	 */
 	public void medianFilter(byte[] img, int w, int h, int filterSize) {
+		
 		byte[] originImg = img.clone();
+		
 		for (int x=0;x<h;x++){
 			for (int y=0;y<w;y++){
 				ArrayList<Integer> l =new ArrayList<Integer>();
@@ -157,7 +161,6 @@ public class Workshop2 {
 				}
 				Collections.sort(l);
 				img[x*w+y]=(byte)(l.get(filterSize*filterSize/2).intValue());
-				//System.out.println(img[x*w+y]&0xFF);
 			}
 		}		
 	}
@@ -170,26 +173,21 @@ public class Workshop2 {
 	 * @param h height of the image
 	 */
 	public void laplacianFilter(byte img[], int w, int h) {
-		//System.out.println("TODO: implement Homework 3");
+
 		byte[] originImg = img.clone();
-		
-		
+
 		for (int x=0;x<h;x++){
 			for (int y=0;y<w;y++){
 				int temp=0;
 				for (int i=-1;i<2;i++){
 					for (int j=-1;j<2;j++){
-						
 						if (i==0 && j==0)
 							temp+=8*inBound(originImg, x, y, w, h);
 						else 
 							temp+=-inBound(originImg, x+i, y+j, w, h);
-						
 					}
 				}
-				
 				if (temp<0) temp = 0;if (temp>255) temp = 255;
-				
 				img[x*w+y]=(byte)temp;
 			}
 		}
