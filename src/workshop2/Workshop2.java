@@ -123,7 +123,6 @@ public class Workshop2 {
 	public void boxSmoothFilter(byte[] img, int w, int h, int filterSize) {
 		
 		byte[] originImg = img.clone();
-		
 		for (int x=0;x<h;x++){
 			for (int y=0;y<w;y++){
 				int temp=0;
@@ -150,7 +149,6 @@ public class Workshop2 {
 	public void medianFilter(byte[] img, int w, int h, int filterSize) {
 		
 		byte[] originImg = img.clone();
-		
 		for (int x=0;x<h;x++){
 			for (int y=0;y<w;y++){
 				ArrayList<Integer> l =new ArrayList<Integer>();
@@ -175,7 +173,6 @@ public class Workshop2 {
 	public void laplacianFilter(byte img[], int w, int h) {
 
 		byte[] originImg = img.clone();
-
 		for (int x=0;x<h;x++){
 			for (int y=0;y<w;y++){
 				int temp=0;
